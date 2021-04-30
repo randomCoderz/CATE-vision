@@ -27,15 +27,12 @@ class Road:
         canny_image = self.canny_edge_detector(cv_image)
         cropped_image = self.region_of_interest(canny_image)
         lines = cv2.HoughLinesP(cropped_image, 2, np.pi / 180, 100, np.array([]), minLineLength = 20, maxLineGap = 10)
-        # cv2.imwrite('/home/am/Desktop/canny.png', canny_image)
-        # cv2.imwrite('/home/am/Desktop/cropped.png', cropped_image)
         if lines is None:
             self.pub.publish(self.bridge.cv2_to_imgmsg(cv_image))
         else:
             averaged_lines = self.average_slope_intercept(cv_image, lines)
             line_image = self.display_lines(cv_image, averaged_lines)
             combo_image = cv2.addWeighted(cv_image, 0.8, line_image, 1, 1)
-            # cv2.imwrite('/home/am/Desktop/final.png', combo_image)     
             self.pub.publish(self.bridge.cv2_to_imgmsg(combo_image))
     
     def canny_edge_detector(self, image):
