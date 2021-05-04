@@ -11,7 +11,7 @@ RUN apt-get update && \
     vim
 
 # Install Python3 tensorflow cpu package
-RUN pip3 install tensorflow
+RUN pip3 install tensorflow opencv-python==3.4.13.47
 
 RUN mkdir -p /ws/src
 COPY vision/ /ws/src/vision/
